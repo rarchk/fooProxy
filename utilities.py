@@ -24,7 +24,7 @@ def init_logger(logger, config_dict):
 	logger.setLevel(logging.INFO)
 
 	fh = logging.FileHandler(config_dict['log'])
-	formatter = logging.Formatter('[%(asctime)s] %(levelname)s - %(message)s')
+	formatter = logging.Formatter('[%(name)s:%(asctime)s] %(levelname)s - %(message)s')
 	fh.setFormatter(formatter)
 
 	logger.addHandler(fh)

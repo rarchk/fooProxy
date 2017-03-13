@@ -8,11 +8,6 @@ import utilities
 
 CONFIG_FILE = 'epollConfig.json'
 
-HTTP_RESPONSE = {
-	400: 'HTTP/1.0 400 OK\r\n',
-	200: 'HTTP/1.0 200 OK\r\n'
-}
-
 ''' Check if configuration file is properly set'''
 
 
@@ -60,7 +55,7 @@ class Server():
 		# Creating Epoll for future read events
 		self.epoll.register(self.servSock.fileno(), select.EPOLLIN | select.EPOLLET)
 
-		self.logger.info('NextBus Reverse Proxy[%s:%d] started' % (host, port))
+		self.logger.info('[%s:%d] started' % (host, port))
 
 	def accept_connection(self):
 		try:
@@ -96,9 +91,7 @@ class Server():
 	def handle_write_events(self, fileno):
 		try:
 			while(len(self.responses[fileno]) > 0):
-				http_status, http_headers, response = self.responses[fileno]
-				self.connections[fileno].send(HTTP_RESPONSE[http_status])
-				self.connections[fileno].send(http_headers)
+				response = self.responses[fileno]
 				self.connections[fileno].send(response)
 				self.epoll.modify(fileno, select.EPOLLIN | select.EPOLLET)		# Registering for read event
 				break
@@ -111,7 +104,7 @@ class Server():
 					self.connections[fileno].setsockopt(socket.IPPROTO_TCP, socket.TCP_CORK, 0)
 			self.epoll.modify(fileno, select.EPOLLET)
 	   		self.connections[fileno].shutdown(socket.SHUT_RDWR)
-	   		self.logger.info('[%s:%d] disconnected' % (host,port))
+	   		self.logger.info('[%s:%d] disconnected' % (host, port))
 
 	def disconnect(self, fileno):
 		self.epoll.unregister(fileno)
