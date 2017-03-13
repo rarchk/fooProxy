@@ -1,21 +1,14 @@
 import argparse
 import logging
-import re
 import sys
 import time
 
-import caching
-
 import epollServer as epoll
-
-import requests
-
-import stats
 
 import utilities
 
 __author__ = 'Ronak Kogta<rixor786@gmail.com>'
-__description__ = ''' Edge triggered Reverse proxy broker '''
+__description__ = ''' Foo proxy protocol '''
 _default_response_ = '''Reverse proxy for NextBus API.\r\n
 We do not have appropriate response for above request.
 Please refer https://github.com/rarchk/reversebus#examples'''

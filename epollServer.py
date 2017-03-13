@@ -100,7 +100,6 @@ class Server():
 				self.connections[fileno].send(HTTP_RESPONSE[http_status])
 				self.connections[fileno].send(http_headers)
 				self.connections[fileno].send(response)
-				self.responses[fileno] = ""
 				self.epoll.modify(fileno, select.EPOLLIN | select.EPOLLET)		# Registering for read event
 				break
 		except socket.error:
